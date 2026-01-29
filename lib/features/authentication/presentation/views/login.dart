@@ -8,6 +8,7 @@ import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
 import 'package:todo_app/global/theme/colors.dart';
+import 'package:todo_app/global/widgets/space.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -59,11 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Column(
           children: [
-            AppHeader(
-              title: 'Welcome Back',
-              iconAsset: 'assets/icons/arrow_left.svg',
-              height: 180,
-            ),
+            AppHeader(title: 'Welcome Back'),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
@@ -72,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 40),
+                      const VerticalSpacing(40),
                       Text(
                         'Sign in to your account',
                         style: context.textTheme.titleLarge?.copyWith(
@@ -80,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const VerticalSpacing(32),
                       CustomTextField(
                         label: 'Username',
                         hintText: 'Enter your username',
@@ -92,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 24),
+                      const VerticalSpacing(24),
                       CustomTextField(
                         label: 'Password',
                         hintText: 'Enter your password',
@@ -113,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 32),
+                      const VerticalSpacing(32),
                       BlocBuilder<AuthenticationBloc, AuthenticationState>(
                         builder: (context, state) {
                           return PrimaryButton(
@@ -125,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                       ),
-                      const SizedBox(height: 24),
+                      const VerticalSpacing(24),
                       Center(
                         child: Text(
                           'Use username: emilys, password: emilyspass',

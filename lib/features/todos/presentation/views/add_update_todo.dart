@@ -9,6 +9,7 @@ import 'package:todo_app/features/todos/presentation/widgets/custom_text_field.d
 import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
+import 'package:todo_app/global/widgets/space.dart';
 
 class AddUpdateTodoScreen extends StatefulWidget {
   final TodoItem? todo;
@@ -91,8 +92,7 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
           children: [
             AppHeader(
               title: _isEditMode ? 'Edit Task' : 'Add New Task',
-              iconAsset: 'assets/icons/close_x.svg',
-              onIconTap: () => context.pop(),
+              canPop: true,
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -102,7 +102,7 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 24),
+                      const VerticalSpacing(24),
                       CustomTextField(
                         label: 'Task',
                         hintText: 'Enter your task',
@@ -115,7 +115,7 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 24),
+                      const VerticalSpacing(24),
                       Text(
                         'Note: DummyJSON API simulates operations but doesn\'t persist data permanently.',
                         style: context.textTheme.bodySmall?.copyWith(
@@ -123,7 +123,7 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                      const SizedBox(height: 100),
+                      const VerticalSpacing(100),
                     ],
                   ),
                 ),

@@ -1,38 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
+import 'package:todo_app/global/widgets/space.dart';
 
 class AppHeader extends StatelessWidget {
   final String title;
-  final String? iconAsset;
-  final VoidCallback? onBackPressed;
-  final VoidCallback? onIconTap;
   final Widget? trailing;
-  final double height;
+  final bool canPop;
 
   const AppHeader({
     super.key,
     required this.title,
-    this.iconAsset,
-    this.onBackPressed,
-    this.onIconTap,
+    this.canPop = false,
     this.trailing,
-    this.height = 96,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: height,
+      height: 222.0,
       decoration: const BoxDecoration(color: AppColors.primary),
       child: Stack(
         children: [
           // Decorative circles
           Positioned(
             left: -191,
-            top: height > 150 ? 78 : -48,
+            top: 78,
             child: Container(
               width: 342,
               height: 342,
@@ -40,7 +35,7 @@ class AppHeader extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 44,
-                  color: AppColors.textOnPrimary.withValues(alpha: 0.2),
+                  color: AppColors.white.withValues(alpha: 0.2),
                 ),
               ),
             ),
@@ -55,7 +50,7 @@ class AppHeader extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 35,
-                  color: AppColors.textOnPrimary.withValues(alpha: 0.3),
+                  color: AppColors.white.withValues(alpha: 0.3),
                 ),
               ),
             ),
@@ -63,10 +58,7 @@ class AppHeader extends StatelessWidget {
           // Header content
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: height > 150 ? 16 : 24,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16.0),
               child: _buildHeaderContent(context),
             ),
           ),
@@ -76,35 +68,45 @@ class AppHeader extends StatelessWidget {
   }
 
   Widget _buildHeaderContent(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        if (iconAsset != null)
-          GestureDetector(
-            onTap: onIconTap ?? onBackPressed ?? () => Navigator.pop(context),
-            child: SvgPicture.asset(
-              iconAsset!,
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(
-                AppColors.textOnPrimary,
-                BlendMode.srcIn,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (canPop)
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: CircleAvatar(
+                  backgroundColor: AppColors.white,
+                  radius: 24.0,
+                  child: Icon(
+                    Icons.close,
+                    color: AppColors.primary,
+                    size: 24.0,
+                  ),
+                ),
+              )
+            else
+              const HorizontalSpacing(48.0),
+            Expanded(
+              child: Text(
+                DateFormat("MMMM dd, yyyy").format(DateTime.now()),
+                style: context.textTheme.titleLarge?.copyWith(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
-          )
-        else
-          const SizedBox(width: 24),
-        Expanded(
-          child: Text(
-            title,
-            style: context.textTheme.titleLarge?.copyWith(
-              color: AppColors.textOnPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-            textAlign: TextAlign.center,
-          ),
+            trailing ?? const HorizontalSpacing(48.0),
+          ],
         ),
-        trailing ?? const SizedBox(width: 24),
+        VerticalSpacing(24.0),
+        Text(
+          title,
+          style: context.textTheme.displayLarge,
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }

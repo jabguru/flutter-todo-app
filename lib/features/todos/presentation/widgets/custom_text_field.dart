@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
+import 'package:todo_app/global/widgets/space.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -40,7 +41,7 @@ class CustomTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: context.textTheme.labelMedium),
-        const SizedBox(height: 8),
+        const VerticalSpacing(8),
         Container(
           height: height,
           decoration: BoxDecoration(

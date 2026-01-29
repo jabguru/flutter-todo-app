@@ -11,6 +11,7 @@ import 'package:todo_app/features/todos/presentation/widgets/todo_checkbox.dart'
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
 import 'package:todo_app/global/theme/colors.dart';
+import 'package:todo_app/global/widgets/space.dart';
 
 class TodosScreen extends StatefulWidget {
   const TodosScreen({super.key});
@@ -80,8 +81,6 @@ class _TodosScreenState extends State<TodosScreen> {
           children: [
             AppHeader(
               title: 'My Todo List',
-              iconAsset: 'assets/icons/arrow_left.svg',
-              height: 222,
               trailing: IconButton(
                 icon: const Icon(Icons.logout, color: Colors.white),
                 onPressed: () {
@@ -110,7 +109,7 @@ class _TodosScreenState extends State<TodosScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(state.message),
-                          const SizedBox(height: 16),
+                          const VerticalSpacing(16),
                           ElevatedButton(
                             onPressed: () {
                               context.read<TodosBloc>().add(
@@ -179,7 +178,7 @@ class _TodosScreenState extends State<TodosScreen> {
             child: const Row(
               children: [
                 Icon(Icons.cloud_off, color: Colors.orange),
-                SizedBox(width: 8),
+                HorizontalSpacing(8),
                 Expanded(
                   child: Text(
                     'Showing cached data. Please check your connection.',
@@ -189,18 +188,18 @@ class _TodosScreenState extends State<TodosScreen> {
               ],
             ),
           ),
-        const SizedBox(height: 24),
+        const VerticalSpacing(24),
         if (activeTodos.isNotEmpty) ...[
           Text('Active Tasks', style: context.textTheme.titleMedium),
-          const SizedBox(height: 8),
+          const VerticalSpacing(8),
           _buildTodoList(activeTodos, false),
-          const SizedBox(height: 24),
+          const VerticalSpacing(24),
         ],
         if (completedTodos.isNotEmpty) ...[
           Text('Completed', style: context.textTheme.titleMedium),
-          const SizedBox(height: 8),
+          const VerticalSpacing(8),
           _buildTodoList(completedTodos, true),
-          const SizedBox(height: 24),
+          const VerticalSpacing(24),
         ],
         if (isLoadingMore)
           const Center(
@@ -216,7 +215,7 @@ class _TodosScreenState extends State<TodosScreen> {
               child: Text('Scroll for more...'),
             ),
           ),
-        const SizedBox(height: 100),
+        const VerticalSpacing(100),
       ],
     );
   }
@@ -258,7 +257,7 @@ class _TodosScreenState extends State<TodosScreen> {
               );
             },
           ),
-          const SizedBox(width: 12),
+          const HorizontalSpacing(12),
           Expanded(
             child: GestureDetector(
               onTap: () {
@@ -282,7 +281,7 @@ class _TodosScreenState extends State<TodosScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const HorizontalSpacing(12),
           IconButton(
             icon: const Icon(Icons.delete_outline, color: Colors.red),
             onPressed: () {

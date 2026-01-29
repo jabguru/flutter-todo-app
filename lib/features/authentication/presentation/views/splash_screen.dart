@@ -28,9 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          context.go(AppRoutes.todos);
+          context.pushReplacement(AppRoutes.todos);
         } else if (state is AuthenticationUnauthenticated) {
-          context.go(AppRoutes.login);
+          context.pushReplacement(AppRoutes.login);
         }
       },
       child: Scaffold(
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Text(
             'Todo App',
             style: context.textTheme.displayLarge?.copyWith(
-              color: AppColors.textOnPrimary,
+              color: AppColors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

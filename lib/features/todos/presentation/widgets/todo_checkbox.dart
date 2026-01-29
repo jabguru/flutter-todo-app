@@ -26,11 +26,7 @@ class TodoCheckbox extends StatelessWidget {
           borderRadius: BorderRadius.circular(3),
         ),
         child: isChecked
-            ? Icon(
-                Icons.check,
-                color: AppColors.textOnPrimary,
-                size: size * 0.75,
-              )
+            ? Icon(Icons.check, color: AppColors.white, size: size * 0.75)
             : null,
       ),
     );

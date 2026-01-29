@@ -9,9 +9,10 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.background,
+      fontFamily: 'Inter',
       colorScheme: ColorScheme.light(
         primary: AppColors.primary,
-        onPrimary: AppColors.textOnPrimary,
+        onPrimary: AppColors.white,
         surface: AppColors.surface,
         onSurface: AppColors.textPrimary,
         error: AppColors.error,
@@ -20,43 +21,36 @@ class AppTheme {
       // Text Theme
       textTheme: const TextTheme(
         displayLarge: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 30,
           fontWeight: FontWeight.w700,
-          color: AppColors.textOnPrimary,
+          color: AppColors.white,
         ),
         titleLarge: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: AppColors.textOnPrimary,
+          color: AppColors.white,
         ),
         titleMedium: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         bodyLarge: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: AppColors.textPrimary,
         ),
         bodyMedium: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.textPrimary,
         ),
         labelLarge: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 16,
           fontWeight: FontWeight.w700,
-          color: AppColors.textOnPrimary,
+          color: AppColors.white,
         ),
         labelMedium: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 14,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
@@ -81,7 +75,6 @@ class AppTheme {
         ),
         contentPadding: const EdgeInsets.all(16),
         hintStyle: TextStyle(
-          fontFamily: 'Inter',
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: AppColors.textPrimary.withValues(alpha: 0.7),
@@ -92,16 +85,12 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textOnPrimary,
+          foregroundColor: AppColors.white,
           minimumSize: const Size(double.infinity, 56),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
       ),
 
