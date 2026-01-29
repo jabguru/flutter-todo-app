@@ -32,9 +32,19 @@ class _TodosScreenState extends State<TodosScreen> {
     // Get current user and load todos
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authState = context.read<AuthenticationBloc>().state;
-      if (authState is AuthenticationAuthenticated) {
-        _currentUser = authState.user;
-        context.read<TodosBloc>().add(LoadTodosEvent(userId: _currentUser!.id));
+      switch (authState) {
+        case AuthenticationAuthenticated(:final user):
+          _currentUser = user;
+          context.read<TodosBloc>().add(
+            LoadTodosEvent(userId: _currentUser!.id),
+          );
+        case LoginSuccess(:final authResponse):
+          _currentUser = authResponse.user;
+          context.read<TodosBloc>().add(
+            LoadTodosEvent(userId: _currentUser!.id),
+          );
+        case _:
+          break;
       }
     });
   }
@@ -87,7 +97,7 @@ class _TodosScreenState extends State<TodosScreen> {
                 icon: const Icon(Icons.logout, color: Colors.white),
                 onPressed: () {
                   context.read<AuthenticationBloc>().add(const LogoutEvent());
-                  context.go(AppRoutes.login);
+                  context.pushReplacement(AppRoutes.login);
                 },
               ),
             ),
