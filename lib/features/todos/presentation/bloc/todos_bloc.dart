@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/core/data/models/paginated_response.dart';
 import 'package:todo_app/features/todos/domain/models/todo_item.dart';
 import 'package:todo_app/features/todos/domain/repositories/todos_repository.dart';
 
@@ -10,9 +11,6 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   final TodosRepository _repository;
 
   List<TodoItem> _currentTodos = [];
-  int _currentSkip = 0;
-  int _currentTotal = 0;
-  static const int _limit = 10;
 
   TodosBloc({required TodosRepository repository})
     : _repository = repository,
@@ -29,15 +27,14 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
     LoadTodosEvent event,
     Emitter<TodosState> emit,
   ) async {
-    if (event.loadMore) {
-      emit(TodosLoadingMore(currentTodos: _currentTodos));
-    } else {
+    if (event.page == 0) {
       emit(TodosLoading());
       _currentTodos = [];
-      _currentSkip = 0;
+    } else {
+      emit(TodosLoadingMore(currentTodos: _currentTodos));
     }
 
-    final res = await _repository.getTodos(limit: _limit, skip: _currentSkip);
+    final res = await _repository.getTodos(page: event.page, size: event.size);
 
     res.fold(
       (failure) async {
@@ -55,28 +52,24 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           ),
         );
       },
-      (response) {
-        final todos = (response['todos'] as List)
-            .map((json) => TodoItem.fromMap(json))
-            .toList();
-
-        if (event.loadMore) {
-          _currentTodos.addAll(todos);
+      (paginatedResponse) {
+        if (event.page == 0) {
+          _currentTodos = paginatedResponse.data;
         } else {
-          _currentTodos = todos;
+          _currentTodos.addAll(paginatedResponse.data);
         }
 
-        _currentTotal = response['total'] as int;
-        _currentSkip += todos.length;
-
-        emit(
-          TodosLoaded(
-            todos: List.from(_currentTodos),
-            total: _currentTotal,
-            skip: _currentSkip,
-            limit: _limit,
-          ),
+        final updatedPaginatedResponse = PaginatedResponseModel<TodoItem>(
+          data: List.from(_currentTodos),
+          pageNumber: paginatedResponse.pageNumber,
+          pageSize: paginatedResponse.pageSize,
+          totalElements: paginatedResponse.totalElements,
+          totalPages: paginatedResponse.totalPages,
+          last: paginatedResponse.last,
+          numberOfElements: _currentTodos.length,
         );
+
+        emit(TodosLoaded(todos: updatedPaginatedResponse));
       },
     );
   }
@@ -98,17 +91,18 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
             .toList();
 
         _currentTodos = todos;
-        _currentTotal = response['total'] as int;
-        _currentSkip = todos.length;
 
-        emit(
-          TodosLoaded(
-            todos: todos,
-            total: _currentTotal,
-            skip: _currentSkip,
-            limit: _limit,
-          ),
+        final paginatedResponse = PaginatedResponseModel<TodoItem>(
+          data: todos,
+          pageNumber: 0,
+          pageSize: todos.length,
+          totalElements: response['total'] as int,
+          totalPages: 1,
+          last: true,
+          numberOfElements: todos.length,
         );
+
+        emit(TodosLoaded(todos: paginatedResponse));
       },
     );
   }
@@ -182,17 +176,18 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           emit(TodosError(message: failure.message, title: failure.title)),
       (todos) {
         _currentTodos = todos;
-        _currentTotal = todos.length;
-        _currentSkip = todos.length;
 
-        emit(
-          TodosLoaded(
-            todos: todos,
-            total: _currentTotal,
-            skip: _currentSkip,
-            limit: _limit,
-          ),
+        final paginatedResponse = PaginatedResponseModel<TodoItem>(
+          data: todos,
+          pageNumber: 0,
+          pageSize: todos.length,
+          totalElements: todos.length,
+          totalPages: 1,
+          last: true,
+          numberOfElements: todos.length,
         );
+
+        emit(TodosLoaded(todos: paginatedResponse));
       },
     );
   }

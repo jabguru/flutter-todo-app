@@ -9,26 +9,27 @@ class PaginatedResponseModel<T> {
     required this.numberOfElements,
   });
 
-  // factory PaginatedResponseModel.fromJson(Map<String, dynamic> json) {
-  //   final data = json['data'] as Map<String, dynamic>;
-  //   return PaginatedResponseModel(
-  //     data: data['content'] as List<T>,
-  //     pageNumber: data["pageable"]['pageNumber'] != null
-  //         ? data["pageable"]['pageNumber'] as int
-  //         : 0,
-  //     pageSize: data["pageable"]['pageSize'] != null
-  //         ? data["pageable"]['pageSize'] as int
-  //         : 0,
-  //     totalElements: data['totalElements'] != null
-  //         ? data['totalElements'] as int
-  //         : 0,
-  //     totalPages: data['totalPages'] != null ? data['totalPages'] as int : 0,
-  //     last: (data['last'] as bool?) ?? true,
-  //     numberOfElements: data['numberOfElements'] != null
-  //         ? data['numberOfElements'] as int
-  //         : 0,
-  //   );
-  // }
+  factory PaginatedResponseModel.fromJson(
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
+    final todos = (json['todos'] as List)
+        .map((item) => fromJsonT(item as Map<String, dynamic>))
+        .toList();
+
+    return PaginatedResponseModel(
+      data: todos,
+      pageNumber: 0, // The API doesn't provide page number
+      pageSize: json['limit'] as int? ?? 10,
+      totalElements: json['total'] as int? ?? 0,
+      totalPages: ((json['total'] as int? ?? 0) / (json['limit'] as int? ?? 10))
+          .ceil(),
+      last:
+          (json['skip'] as int? ?? 0) + todos.length >=
+          (json['total'] as int? ?? 0),
+      numberOfElements: todos.length,
+    );
+  }
 
   final List<T> data;
   final int pageNumber;

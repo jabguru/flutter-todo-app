@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:todo_app/core/data/models/paginated_response.dart';
 import 'package:todo_app/core/data/repositories/base_repository.dart';
 import 'package:todo_app/core/network/error/failures.dart';
 import 'package:todo_app/features/todos/data/datasources/todos_local_data_source.dart';
@@ -17,23 +18,20 @@ class TodosRepositoryImpl extends BaseRepository implements TodosRepository {
   final TodosLocalDataSource _localDataSource;
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> getTodos({
-    required int limit,
-    required int skip,
+  Future<Either<Failure, PaginatedResponseModel<TodoItem>>> getTodos({
+    required int page,
+    required int size,
   }) async {
     return await handleRequest(() async {
-      final response = await _remoteDataSource.getTodos(
-        limit: limit,
-        skip: skip,
+      final paginatedResponse = await _remoteDataSource.getTodos(
+        page: page,
+        size: size,
       );
 
       // Cache the todos
-      final todos = (response['todos'] as List)
-          .map((json) => TodoItem.fromMap(json))
-          .toList();
-      await _localDataSource.cacheTodos(todos);
+      await _localDataSource.cacheTodos(paginatedResponse.data);
 
-      return response;
+      return paginatedResponse;
     });
   }
 

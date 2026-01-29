@@ -47,8 +47,10 @@ class _TodosScreenState extends State<TodosScreen> {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.9) {
       final state = context.read<TodosBloc>().state;
-      if (state is TodosLoaded && state.hasMore) {
-        context.read<TodosBloc>().add(const LoadTodosEvent(loadMore: true));
+      if (state is TodosLoaded && !state.todos.last) {
+        context.read<TodosBloc>().add(
+          LoadTodosEvent(page: state.todos.nextPage),
+        );
       }
     }
   }
@@ -123,13 +125,13 @@ class _TodosScreenState extends State<TodosScreen> {
 
                   if (state is TodosLoaded || state is TodosLoadingMore) {
                     final todos = state is TodosLoaded
-                        ? state.todos
+                        ? state.todos.data
                         : (state as TodosLoadingMore).currentTodos;
 
                     return _buildTodosList(
                       todos,
                       isLoadingMore: state is TodosLoadingMore,
-                      hasMore: state is TodosLoaded ? state.hasMore : false,
+                      hasMore: state is TodosLoaded ? !state.todos.last : false,
                     );
                   }
 

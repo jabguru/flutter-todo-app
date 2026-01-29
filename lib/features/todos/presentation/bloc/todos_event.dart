@@ -8,12 +8,13 @@ abstract class TodosEvent extends Equatable {
 }
 
 class LoadTodosEvent extends TodosEvent {
-  final bool loadMore;
+  final int page;
+  final int size;
 
-  const LoadTodosEvent({this.loadMore = false});
+  const LoadTodosEvent({this.page = 0, this.size = 10});
 
   @override
-  List<Object?> get props => [loadMore];
+  List<Object?> get props => [page, size];
 }
 
 class LoadTodosByUserEvent extends TodosEvent {

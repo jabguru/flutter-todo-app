@@ -1,11 +1,12 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:todo_app/core/data/models/paginated_response.dart';
 import 'package:todo_app/core/network/error/failures.dart';
 import 'package:todo_app/features/todos/domain/models/todo_item.dart';
 
 abstract class TodosRepository {
-  Future<Either<Failure, Map<String, dynamic>>> getTodos({
-    required int limit,
-    required int skip,
+  Future<Either<Failure, PaginatedResponseModel<TodoItem>>> getTodos({
+    required int page,
+    required int size,
   });
 
   Future<Either<Failure, Map<String, dynamic>>> getTodosByUser({

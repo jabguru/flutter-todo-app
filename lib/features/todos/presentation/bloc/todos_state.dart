@@ -21,21 +21,12 @@ class TodosLoadingMore extends TodosState {
 }
 
 class TodosLoaded extends TodosState {
-  final List<TodoItem> todos;
-  final int total;
-  final int skip;
-  final int limit;
-  final bool hasMore;
+  final PaginatedResponseModel<TodoItem> todos;
 
-  const TodosLoaded({
-    required this.todos,
-    required this.total,
-    required this.skip,
-    required this.limit,
-  }) : hasMore = (skip + todos.length) < total;
+  const TodosLoaded({required this.todos});
 
   @override
-  List<Object?> get props => [todos, total, skip, limit, hasMore];
+  List<Object?> get props => [todos];
 }
 
 class TodosError extends TodosState {
