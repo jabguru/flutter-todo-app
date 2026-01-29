@@ -1,0 +1,19 @@
+{
+    "todos": [
+        {
+            "id": 4,
+            "todo": "Buy groceries",
+            "completed": false,
+            "userId": 5
+        },
+        {
+            "id": 5,
+            "todo": "Schedule dentist appointment",
+            "completed": true,
+            "userId": 5
+        }
+    ],
+    "total": 5,
+    "skip": 0,
+    "limit": 10
+}

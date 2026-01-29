@@ -40,7 +40,9 @@ class TodosError extends TodosState {
   List<Object?> get props => [message, title, cachedTodos];
 }
 
-class TodoOperationLoading extends TodosState {}
+class TodoOperationLoading extends TodosState {
+  const TodoOperationLoading();
+}
 
 class TodoAddedSuccess extends TodosState {
   final TodoItem todo;

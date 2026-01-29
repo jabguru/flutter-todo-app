@@ -1,0 +1,25 @@
+{
+    "todos": [
+        {
+            "id": 1,
+            "todo": "Complete project documentation",
+            "completed": false,
+            "userId": 5
+        },
+        {
+            "id": 2,
+            "todo": "Write unit tests",
+            "completed": true,
+            "userId": 5
+        },
+        {
+            "id": 3,
+            "todo": "Review pull requests",
+            "completed": false,
+            "userId": 5
+        }
+    ],
+    "total": 150,
+    "skip": 0,
+    "limit": 10
+}

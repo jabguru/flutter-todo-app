@@ -30,7 +30,11 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       emit(TodosLoading());
       _currentTodos = [];
     } else {
-      emit(TodosLoadingMore(currentTodos: _currentTodos));
+      // Get current todos from state if available
+      if (state is TodosLoaded) {
+        _currentTodos = List.from((state as TodosLoaded).todos.data);
+      }
+      emit(TodosLoadingMore(currentTodos: List.from(_currentTodos)));
     }
 
     final res = await _repository.getTodos(
@@ -39,7 +43,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       userId: event.userId,
     );
 
-    res.fold(
+    await res.match(
       (failure) async {
         // Try to load cached todos on error
         final cachedResult = await _repository.getCachedTodos();
@@ -55,9 +59,9 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           ),
         );
       },
-      (paginatedResponse) {
+      (paginatedResponse) async {
         if (event.page == 0) {
-          _currentTodos = paginatedResponse.data;
+          _currentTodos = List.from(paginatedResponse.data);
         } else {
           _currentTodos.addAll(paginatedResponse.data);
         }
