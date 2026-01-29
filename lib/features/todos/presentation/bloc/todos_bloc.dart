@@ -16,7 +16,6 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
     : _repository = repository,
       super(TodosInitial()) {
     on<LoadTodosEvent>(_handleLoadTodos);
-    on<LoadTodosByUserEvent>(_handleLoadTodosByUser);
     on<AddTodoEvent>(_handleAddTodo);
     on<UpdateTodoEvent>(_handleUpdateTodo);
     on<DeleteTodoEvent>(_handleDeleteTodo);
@@ -34,7 +33,11 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       emit(TodosLoadingMore(currentTodos: _currentTodos));
     }
 
-    final res = await _repository.getTodos(page: event.page, size: event.size);
+    final res = await _repository.getTodos(
+      page: event.page,
+      size: event.size,
+      userId: event.userId,
+    );
 
     res.fold(
       (failure) async {
@@ -70,39 +73,6 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
         );
 
         emit(TodosLoaded(todos: updatedPaginatedResponse));
-      },
-    );
-  }
-
-  Future<void> _handleLoadTodosByUser(
-    LoadTodosByUserEvent event,
-    Emitter<TodosState> emit,
-  ) async {
-    emit(TodosLoading());
-
-    final res = await _repository.getTodosByUser(userId: event.userId);
-
-    res.fold(
-      (failure) =>
-          emit(TodosError(message: failure.message, title: failure.title)),
-      (response) {
-        final todos = (response['todos'] as List)
-            .map((json) => TodoItem.fromMap(json))
-            .toList();
-
-        _currentTodos = todos;
-
-        final paginatedResponse = PaginatedResponseModel<TodoItem>(
-          data: todos,
-          pageNumber: 0,
-          pageSize: todos.length,
-          totalElements: response['total'] as int,
-          totalPages: 1,
-          last: true,
-          numberOfElements: todos.length,
-        );
-
-        emit(TodosLoaded(todos: paginatedResponse));
       },
     );
   }

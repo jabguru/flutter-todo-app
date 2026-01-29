@@ -21,34 +21,19 @@ class TodosRepositoryImpl extends BaseRepository implements TodosRepository {
   Future<Either<Failure, PaginatedResponseModel<TodoItem>>> getTodos({
     required int page,
     required int size,
+    required int userId,
   }) async {
     return await handleRequest(() async {
       final paginatedResponse = await _remoteDataSource.getTodos(
         page: page,
         size: size,
+        userId: userId,
       );
 
       // Cache the todos
       await _localDataSource.cacheTodos(paginatedResponse.data);
 
       return paginatedResponse;
-    });
-  }
-
-  @override
-  Future<Either<Failure, Map<String, dynamic>>> getTodosByUser({
-    required int userId,
-  }) async {
-    return await handleRequest(() async {
-      final response = await _remoteDataSource.getTodosByUser(userId: userId);
-
-      // Cache the todos
-      final todos = (response['todos'] as List)
-          .map((json) => TodoItem.fromMap(json))
-          .toList();
-      await _localDataSource.cacheTodos(todos);
-
-      return response;
     });
   }
 

@@ -7,9 +7,8 @@ abstract class TodosRemoteDataSource {
   Future<PaginatedResponseModel<TodoItem>> getTodos({
     required int page,
     required int size,
+    required int userId,
   });
-
-  Future<Map<String, dynamic>> getTodosByUser({required int userId});
 
   Future<TodoItem> addTodo({
     required String todo,
@@ -31,10 +30,11 @@ class TodosRemoteDataSourceImpl implements TodosRemoteDataSource {
   Future<PaginatedResponseModel<TodoItem>> getTodos({
     required int page,
     required int size,
+    required int userId,
   }) async {
     final skip = page * size;
     final response = await _networkProvider.call(
-      path: Endpoints.todos,
+      path: Endpoints.todosByUser(userId),
       method: RequestMethod.get,
       queryParams: {'limit': size, 'skip': skip},
     );
@@ -44,15 +44,6 @@ class TodosRemoteDataSourceImpl implements TodosRemoteDataSource {
       data,
       (json) => TodoItem.fromMap(json),
     );
-  }
-
-  @override
-  Future<Map<String, dynamic>> getTodosByUser({required int userId}) async {
-    final response = await _networkProvider.call(
-      path: Endpoints.todosByUser(userId),
-      method: RequestMethod.get,
-    );
-    return response?.data as Map<String, dynamic>;
   }
 
   @override

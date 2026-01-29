@@ -10,20 +10,12 @@ abstract class TodosEvent extends Equatable {
 class LoadTodosEvent extends TodosEvent {
   final int page;
   final int size;
-
-  const LoadTodosEvent({this.page = 0, this.size = 10});
-
-  @override
-  List<Object?> get props => [page, size];
-}
-
-class LoadTodosByUserEvent extends TodosEvent {
   final int userId;
 
-  const LoadTodosByUserEvent({required this.userId});
+  const LoadTodosEvent({required this.userId, this.page = 0, this.size = 10});
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [page, size, userId];
 }
 
 class AddTodoEvent extends TodosEvent {

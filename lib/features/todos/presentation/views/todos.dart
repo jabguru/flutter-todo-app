@@ -34,7 +34,7 @@ class _TodosScreenState extends State<TodosScreen> {
       final authState = context.read<AuthenticationBloc>().state;
       if (authState is AuthenticationAuthenticated) {
         _currentUser = authState.user;
-        context.read<TodosBloc>().add(const LoadTodosEvent());
+        context.read<TodosBloc>().add(LoadTodosEvent(userId: _currentUser!.id));
       }
     });
   }
@@ -51,7 +51,7 @@ class _TodosScreenState extends State<TodosScreen> {
       final state = context.read<TodosBloc>().state;
       if (state is TodosLoaded && !state.todos.last) {
         context.read<TodosBloc>().add(
-          LoadTodosEvent(page: state.todos.nextPage),
+          LoadTodosEvent(page: state.todos.nextPage, userId: _currentUser!.id),
         );
       }
     }
@@ -67,7 +67,9 @@ class _TodosScreenState extends State<TodosScreen> {
               state is TodoUpdatedSuccess ||
               state is TodoDeletedSuccess) {
             // Reload todos after successful operation
-            context.read<TodosBloc>().add(const LoadTodosEvent());
+            context.read<TodosBloc>().add(
+              LoadTodosEvent(userId: _currentUser!.id),
+            );
           } else if (state is TodoOperationError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -113,7 +115,7 @@ class _TodosScreenState extends State<TodosScreen> {
                           ElevatedButton(
                             onPressed: () {
                               context.read<TodosBloc>().add(
-                                const LoadTodosEvent(),
+                                LoadTodosEvent(userId: _currentUser!.id),
                               );
                             },
                             child: const Text('Retry'),

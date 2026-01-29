@@ -7,9 +7,6 @@ abstract class TodosRepository {
   Future<Either<Failure, PaginatedResponseModel<TodoItem>>> getTodos({
     required int page,
     required int size,
-  });
-
-  Future<Either<Failure, Map<String, dynamic>>> getTodosByUser({
     required int userId,
   });
 

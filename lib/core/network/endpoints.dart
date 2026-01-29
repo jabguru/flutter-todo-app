@@ -8,7 +8,6 @@ class Endpoints {
   static const String currentUser = 'https://dummyjson.com/auth/me';
 
   // Todos
-  static const String todos = 'https://dummyjson.com/todos';
   static String todosByUser(int userId) =>
       'https://dummyjson.com/todos/user/$userId';
   static String todoById(int id) => 'https://dummyjson.com/todos/$id';
