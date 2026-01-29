@@ -14,6 +14,22 @@ A well-architected task management application built with Flutter, following Cle
 - ✅ State management with Bloc/Cubit
 - ✅ Protected routing with GoRouter
 
+## Screenshots
+
+### Light Mode
+<p float="left">
+  <img src="assets/screenshots/light-1.png" width="250" />
+  <img src="assets/screenshots/light-2.png" width="250" />
+  <img src="assets/screenshots/light-3.png" width="250" />
+</p>
+
+### Dark Mode
+<p float="left">
+  <img src="assets/screenshots/dark-1.png" width="250" />
+  <img src="assets/screenshots/dark-2.png" width="250" />
+  <img src="assets/screenshots/dark-3.png" width="250" />
+</p>
+
 ## Project Setup
 
 ### Prerequisites
