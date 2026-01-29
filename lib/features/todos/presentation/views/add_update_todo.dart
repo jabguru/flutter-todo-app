@@ -7,6 +7,7 @@ import 'package:todo_app/features/todos/presentation/bloc/todos_bloc.dart';
 import 'package:todo_app/features/todos/presentation/widgets/app_header.dart';
 import 'package:todo_app/features/todos/presentation/widgets/custom_text_field.dart';
 import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
 class AddUpdateTodoScreen extends StatefulWidget {
@@ -117,8 +118,8 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
                       const SizedBox(height: 24),
                       Text(
                         'Note: DummyJSON API simulates operations but doesn\'t persist data permanently.',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textPrimary.withOpacity(0.6),
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: AppColors.textPrimary.withValues(alpha: 0.6),
                           fontStyle: FontStyle.italic,
                         ),
                       ),

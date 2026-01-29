@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Center(
           child: Text(
             'Todo App',
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+            style: context.textTheme.displayLarge?.copyWith(
               color: AppColors.textOnPrimary,
               fontWeight: FontWeight.bold,
             ),

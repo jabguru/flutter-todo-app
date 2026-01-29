@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
 class AppHeader extends StatelessWidget {
@@ -39,7 +40,7 @@ class AppHeader extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 44,
-                  color: AppColors.textOnPrimary.withOpacity(0.2),
+                  color: AppColors.textOnPrimary.withValues(alpha: 0.2),
                 ),
               ),
             ),
@@ -54,7 +55,7 @@ class AppHeader extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 35,
-                  color: AppColors.textOnPrimary.withOpacity(0.3),
+                  color: AppColors.textOnPrimary.withValues(alpha: 0.3),
                 ),
               ),
             ),
@@ -96,7 +97,7 @@ class AppHeader extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            style: context.textTheme.titleLarge?.copyWith(
               color: AppColors.textOnPrimary,
               fontWeight: FontWeight.w600,
             ),

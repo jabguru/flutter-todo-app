@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -27,7 +28,7 @@ class PrimaryButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: isDisabled
-            ? AppColors.primary.withOpacity(0.5)
+            ? AppColors.primary.withValues(alpha: 0.5)
             : AppColors.primary,
         borderRadius: BorderRadius.circular(50),
       ),
@@ -46,7 +47,7 @@ class PrimaryButton extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                : Text(text, style: Theme.of(context).textTheme.labelLarge),
+                : Text(text, style: context.textTheme.labelLarge),
           ),
         ),
       ),

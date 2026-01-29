@@ -5,6 +5,7 @@ import 'package:todo_app/features/authentication/presentation/bloc/authenticatio
 import 'package:todo_app/features/todos/presentation/widgets/app_header.dart';
 import 'package:todo_app/features/todos/presentation/widgets/custom_text_field.dart';
 import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 40),
                       Text(
                         'Sign in to your account',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        style: context.textTheme.titleLarge?.copyWith(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.w600,
                         ),
@@ -128,11 +129,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Center(
                         child: Text(
                           'Use username: emilys, password: emilyspass',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: AppColors.textPrimary.withOpacity(0.6),
-                                fontStyle: FontStyle.italic,
-                              ),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.textPrimary
+                              ..withValues(alpha: 0.6),
+                            fontStyle: FontStyle.italic,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),

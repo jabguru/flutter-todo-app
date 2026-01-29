@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -38,7 +39,7 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: Theme.of(context).textTheme.labelMedium),
+        Text(label, style: context.textTheme.labelMedium),
         const SizedBox(height: 8),
         Container(
           height: height,
@@ -57,11 +58,11 @@ class CustomTextField extends StatelessWidget {
             keyboardType: keyboardType,
             validator: validator,
             textAlignVertical: expands ? TextAlignVertical.top : null,
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: context.textTheme.bodyLarge,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.textPrimary.withOpacity(0.7),
+              hintStyle: context.textTheme.bodyLarge?.copyWith(
+                color: AppColors.textPrimary..withValues(alpha: 0.7),
               ),
               border: InputBorder.none,
               errorBorder: InputBorder.none,

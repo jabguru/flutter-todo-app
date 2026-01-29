@@ -8,6 +8,7 @@ import 'package:todo_app/features/todos/presentation/bloc/todos_bloc.dart';
 import 'package:todo_app/features/todos/presentation/widgets/app_header.dart';
 import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart';
 import 'package:todo_app/features/todos/presentation/widgets/todo_checkbox.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
 import 'package:todo_app/global/theme/colors.dart';
 
@@ -190,13 +191,13 @@ class _TodosScreenState extends State<TodosScreen> {
           ),
         const SizedBox(height: 24),
         if (activeTodos.isNotEmpty) ...[
-          Text('Active Tasks', style: Theme.of(context).textTheme.titleMedium),
+          Text('Active Tasks', style: context.textTheme.titleMedium),
           const SizedBox(height: 8),
           _buildTodoList(activeTodos, false),
           const SizedBox(height: 24),
         ],
         if (completedTodos.isNotEmpty) ...[
-          Text('Completed', style: Theme.of(context).textTheme.titleMedium),
+          Text('Completed', style: context.textTheme.titleMedium),
           const SizedBox(height: 8),
           _buildTodoList(completedTodos, true),
           const SizedBox(height: 24),
@@ -270,12 +271,12 @@ class _TodosScreenState extends State<TodosScreen> {
               },
               child: Text(
                 todo.todo,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                style: context.textTheme.titleMedium?.copyWith(
                   decoration: todo.completed
                       ? TextDecoration.lineThrough
                       : TextDecoration.none,
                   color: todo.completed
-                      ? AppColors.textPrimary.withOpacity(0.5)
+                      ? AppColors.textPrimary.withValues(alpha: 0.5)
                       : AppColors.textPrimary,
                 ),
               ),

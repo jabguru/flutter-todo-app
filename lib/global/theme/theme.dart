@@ -84,7 +84,7 @@ class AppTheme {
           fontFamily: 'Inter',
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: AppColors.textPrimary.withOpacity(0.7),
+          color: AppColors.textPrimary.withValues(alpha: 0.7),
         ),
       ),
 
