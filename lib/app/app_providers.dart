@@ -12,6 +12,8 @@ import 'package:todo_app/features/authentication/data/datasources/auth_remote_da
 import 'package:todo_app/features/authentication/data/repositories/auth_repository.dart';
 import 'package:todo_app/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:todo_app/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:todo_app/features/settings/data/datasources/theme_local_data_source.dart';
+import 'package:todo_app/features/settings/presentation/cubit/theme_cubit.dart';
 import 'package:todo_app/features/todos/data/datasources/todos_local_data_source.dart';
 import 'package:todo_app/features/todos/data/datasources/todos_remote_data_source.dart';
 import 'package:todo_app/features/todos/data/repositories/todos_repository.dart';
@@ -97,6 +99,12 @@ class AppProviders extends StatelessWidget {
             localDataSource: context.read<TodosLocalDataSource>(),
           ),
         ),
+
+        // Theme data source
+        RepositoryProvider<ThemeLocalDataSource>(
+          create: (context) =>
+              ThemeLocalDataSource(context.read<SharedPrefStorage>()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -108,6 +116,11 @@ class AppProviders extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 TodosBloc(repository: context.read<TodosRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ThemeCubit(context.read<ThemeLocalDataSource>())
+                  ..loadThemeMode(),
           ),
         ],
         child: child,

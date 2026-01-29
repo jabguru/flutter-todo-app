@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/global/theme/colors.dart';
+import 'package:todo_app/global/extensions/context_extension.dart';
 
 class TodoCheckbox extends StatelessWidget {
   final bool isChecked;
@@ -21,12 +21,18 @@ class TodoCheckbox extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: isChecked ? AppColors.primary : AppColors.surface,
-          border: Border.all(color: AppColors.primary, width: 1),
+          color: isChecked
+              ? context.colorScheme.primary
+              : context.colorScheme.surface,
+          border: Border.all(color: context.colorScheme.primary, width: 1),
           borderRadius: BorderRadius.circular(3),
         ),
         child: isChecked
-            ? Icon(Icons.check, color: AppColors.white, size: size * 0.75)
+            ? Icon(
+                Icons.check,
+                color: context.colorScheme.onPrimary,
+                size: size * 0.75,
+              )
             : null,
       ),
     );

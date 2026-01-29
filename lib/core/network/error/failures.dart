@@ -12,3 +12,7 @@ class Failure extends Equatable {
 class BiometricFailure extends Failure {
   const BiometricFailure({required String super.title, required super.message});
 }
+
+class CacheFailure extends Failure {
+  const CacheFailure(String message) : super(message: message);
+}

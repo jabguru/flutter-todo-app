@@ -9,6 +9,7 @@ A well-architected task management application built with Flutter, following Cle
 - ✅ Pagination for efficient data loading
 - ✅ Secure session persistence
 - ✅ Local caching for offline access
+- ✅ Dark mode support with theme persistence
 - ✅ Clean Architecture implementation
 - ✅ State management with Bloc/Cubit
 - ✅ Protected routing with GoRouter
@@ -78,6 +79,10 @@ lib/
 │   │   └── presentation/     # Presentation layer
 │   │       ├── bloc/         # State management
 │   │       └── views/        # UI screens
+│   │
+│   ├── settings/             # Settings feature
+│   │   ├── data/             # Theme preferences
+│   │   └── presentation/     # Theme management
 │   │
 │   └── todos/                # Todos feature
 │       ├── data/
@@ -164,6 +169,14 @@ The app uses **BLoC (Business Logic Component) pattern** for state management, p
   - Optimistic UI updates
   - Local cache fallback on errors
   - Separate operation states to prevent list refresh on CRUD operations
+
+#### ThemeCubit
+- **States**: ThemeState with themeMode (light/dark/system) and loading status
+- **Features**:
+  - Theme mode persistence using local storage
+  - System theme support (follows device settings)
+  - Seamless theme switching with reactive UI updates
+  - Lightweight Cubit for simpler state management
 
 ## Routing & Navigation
 
@@ -318,12 +331,17 @@ flutter test --coverage
 ## Additional Features & Improvements
 
 ### Enhanced Features
-1. **Comprehensive Error States**: Error UI with cached data fallback when network fails
-2. **Loading States Granularity**: Separate states for initial loading vs. pagination loading vs. operation loading
-3. **Optimistic Updates**: CRUD operations don't refresh the entire list, maintaining user's scroll position
-4. **Session Timeout Handling**: Automatic logout on 401 errors with navigation to login
-5. **Username Trimming**: Automatic whitespace removal from login inputs
-6. **Custom Expiration**: Support for custom token expiration time in login
+1. **Dark Mode Support**: Complete theme system with light, dark, and system modes
+   - Theme-aware color scheme throughout the app
+   - Persistent theme preference using local storage
+   - Easy theme switching via settings dialog
+   - All colors use theme-based values for automatic adaptation
+2. **Comprehensive Error States**: Error UI with cached data fallback when network fails
+3. **Loading States Granularity**: Separate states for initial loading vs. pagination loading vs. operation loading
+4. **Optimistic Updates**: CRUD operations don't refresh the entire list, maintaining user's scroll position
+5. **Session Timeout Handling**: Automatic logout on 401 errors with navigation to login
+6. **Username Trimming**: Automatic whitespace removal from login inputs
+7. **Custom Expiration**: Support for custom token expiration time in login
 
 ### Code Quality Improvements
 1. **Fixture-Based Testing**: JSON fixtures for consistent test data across all test suites
@@ -376,7 +394,6 @@ The DummyJSON API simulates backend operations but doesn't persist data permanen
 - [ ] Code coverage reporting
 - [ ] Performance profiling and optimization
 - [ ] Accessibility improvements
-- [ ] Dark mode support
 - [ ] Internationalization (i18n)
 
 ---

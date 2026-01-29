@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
-import 'package:todo_app/global/theme/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -28,8 +27,8 @@ class PrimaryButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: isDisabled
-            ? AppColors.primary.withValues(alpha: 0.5)
-            : AppColors.primary,
+            ? context.colorScheme.primary.withValues(alpha: 0.5)
+            : context.colorScheme.primary,
         borderRadius: BorderRadius.circular(50),
       ),
       child: Material(
@@ -39,12 +38,14 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           child: Center(
             child: isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        context.colorScheme.onPrimary,
+                      ),
                     ),
                   )
                 : Text(text, style: context.textTheme.labelLarge),

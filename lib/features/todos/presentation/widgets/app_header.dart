@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
-import 'package:todo_app/global/theme/colors.dart';
 import 'package:todo_app/global/widgets/space.dart';
 
 class AppHeader extends StatelessWidget {
@@ -21,7 +20,7 @@ class AppHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 222.0,
-      decoration: const BoxDecoration(color: AppColors.primary),
+      decoration: BoxDecoration(color: context.colorScheme.primary),
       child: Stack(
         children: [
           // Decorative circles
@@ -35,7 +34,7 @@ class AppHeader extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 44,
-                  color: AppColors.white.withValues(alpha: 0.2),
+                  color: context.colorScheme.onPrimary.withValues(alpha: 0.2),
                 ),
               ),
             ),
@@ -50,7 +49,7 @@ class AppHeader extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 35,
-                  color: AppColors.white.withValues(alpha: 0.3),
+                  color: context.colorScheme.onPrimary.withValues(alpha: 0.3),
                 ),
               ),
             ),
@@ -77,11 +76,11 @@ class AppHeader extends StatelessWidget {
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: CircleAvatar(
-                  backgroundColor: AppColors.white,
+                  backgroundColor: context.colorScheme.onPrimary,
                   radius: 24.0,
                   child: Icon(
                     Icons.close,
-                    color: AppColors.primary,
+                    color: context.colorScheme.primary,
                     size: 24.0,
                   ),
                 ),
@@ -92,7 +91,7 @@ class AppHeader extends StatelessWidget {
               child: Text(
                 DateFormat("MMMM dd, yyyy").format(DateTime.now()),
                 style: context.textTheme.titleLarge?.copyWith(
-                  color: AppColors.white,
+                  color: context.colorScheme.onPrimary,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,

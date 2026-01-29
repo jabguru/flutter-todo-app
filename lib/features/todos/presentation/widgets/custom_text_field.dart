@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
-import 'package:todo_app/global/theme/colors.dart';
 import 'package:todo_app/global/widgets/space.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -45,8 +44,8 @@ class CustomTextField extends StatelessWidget {
         Container(
           height: height,
           decoration: BoxDecoration(
-            color: AppColors.surface,
-            border: Border.all(color: AppColors.border),
+            color: context.colorScheme.surface,
+            border: Border.all(color: context.colorScheme.outline),
             borderRadius: BorderRadius.circular(6),
           ),
           child: TextFormField(
@@ -63,7 +62,7 @@ class CustomTextField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: context.textTheme.bodyLarge?.copyWith(
-                color: AppColors.textPrimary..withValues(alpha: 0.7),
+                color: context.colorScheme.onSurface.withValues(alpha: 0.7),
               ),
               border: InputBorder.none,
               errorBorder: InputBorder.none,
@@ -75,7 +74,7 @@ class CustomTextField extends StatelessWidget {
                       onTap: onSuffixIconTap,
                       child: Icon(
                         suffixIcon,
-                        color: AppColors.textPrimary,
+                        color: context.colorScheme.onSurface,
                         size: 20,
                       ),
                     )

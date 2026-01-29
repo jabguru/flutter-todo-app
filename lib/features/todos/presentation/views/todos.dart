@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/features/authentication/data/models/user/user.dart';
 import 'package:todo_app/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:todo_app/features/settings/presentation/widgets/theme_dialog.dart';
 import 'package:todo_app/features/todos/domain/models/todo_item.dart';
 import 'package:todo_app/features/todos/presentation/bloc/todos_bloc.dart';
 import 'package:todo_app/features/todos/presentation/widgets/app_header.dart';
@@ -10,7 +11,6 @@ import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart
 import 'package:todo_app/features/todos/presentation/widgets/todo_checkbox.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
-import 'package:todo_app/global/theme/colors.dart';
 import 'package:todo_app/global/widgets/space.dart';
 
 class TodosScreen extends StatefulWidget {
@@ -70,7 +70,6 @@ class _TodosScreenState extends State<TodosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: BlocListener<TodosBloc, TodosState>(
         listener: (context, state) {
           if (state is TodoAddedSuccess ||
@@ -84,7 +83,7 @@ class _TodosScreenState extends State<TodosScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.red,
+                backgroundColor: context.colorScheme.error,
               ),
             );
           }
@@ -93,12 +92,31 @@ class _TodosScreenState extends State<TodosScreen> {
           children: [
             AppHeader(
               title: 'My Todo List',
-              trailing: IconButton(
-                icon: const Icon(Icons.logout, color: Colors.white),
-                onPressed: () {
-                  context.read<AuthenticationBloc>().add(const LogoutEvent());
-                  context.pushReplacement(AppRoutes.login);
-                },
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.brightness_6,
+                      color: context.colorScheme.onPrimary,
+                    ),
+                    onPressed: () => ThemeDialog.show(context),
+                    tooltip: 'Change Theme',
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.logout,
+                      color: context.colorScheme.onPrimary,
+                    ),
+                    onPressed: () {
+                      context.read<AuthenticationBloc>().add(
+                        const LogoutEvent(),
+                      );
+                      context.pushReplacement(AppRoutes.login);
+                    },
+                    tooltip: 'Logout',
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -235,7 +253,7 @@ class _TodosScreenState extends State<TodosScreen> {
   Widget _buildTodoList(List<TodoItem> todos, bool isCompleted) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.divider,
+        color: context.colorScheme.outlineVariant,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -249,37 +267,40 @@ class _TodosScreenState extends State<TodosScreen> {
   }
 
   Widget _buildTodoItem(TodoItem todo, bool showDivider) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: showDivider
-            ? const Border(
-                bottom: BorderSide(color: AppColors.divider, width: 1),
-              )
-            : null,
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          TodoCheckbox(
-            isChecked: todo.completed,
-            onTap: () {
-              context.read<TodosBloc>().add(
-                UpdateTodoEvent(id: todo.id, completed: !todo.completed),
-              );
-            },
-          ),
-          const HorizontalSpacing(12),
-          Expanded(
-            child: GestureDetector(
+    return GestureDetector(
+      onTap: () {
+        if (_currentUser != null) {
+          context.push(
+            '${AppRoutes.editTodo}/${todo.id}',
+            extra: {'todo': todo, 'user': _currentUser},
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.colorScheme.surface,
+          border: showDivider
+              ? Border(
+                  bottom: BorderSide(
+                    color: context.colorScheme.outlineVariant,
+                    width: 1,
+                  ),
+                )
+              : null,
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            TodoCheckbox(
+              isChecked: todo.completed,
               onTap: () {
-                if (_currentUser != null) {
-                  context.push(
-                    '${AppRoutes.editTodo}/${todo.id}',
-                    extra: {'todo': todo, 'user': _currentUser},
-                  );
-                }
+                context.read<TodosBloc>().add(
+                  UpdateTodoEvent(id: todo.id, completed: !todo.completed),
+                );
               },
+            ),
+            const HorizontalSpacing(12),
+            Expanded(
               child: Text(
                 todo.todo,
                 style: context.textTheme.titleMedium?.copyWith(
@@ -287,20 +308,23 @@ class _TodosScreenState extends State<TodosScreen> {
                       ? TextDecoration.lineThrough
                       : TextDecoration.none,
                   color: todo.completed
-                      ? AppColors.textPrimary.withValues(alpha: 0.5)
-                      : AppColors.textPrimary,
+                      ? context.colorScheme.onSurface.withValues(alpha: 0.5)
+                      : context.colorScheme.onSurface,
                 ),
               ),
             ),
-          ),
-          const HorizontalSpacing(12),
-          IconButton(
-            icon: const Icon(Icons.delete_outline, color: Colors.red),
-            onPressed: () {
-              _showDeleteConfirmation(todo.id);
-            },
-          ),
-        ],
+            const HorizontalSpacing(12),
+            IconButton(
+              icon: Icon(
+                Icons.delete_outline,
+                color: context.colorScheme.error,
+              ),
+              onPressed: () {
+                _showDeleteConfirmation(todo.id);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -321,7 +345,9 @@ class _TodosScreenState extends State<TodosScreen> {
               Navigator.pop(context);
               context.read<TodosBloc>().add(DeleteTodoEvent(id: todoId));
             },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(
+              foregroundColor: context.colorScheme.error,
+            ),
             child: const Text('Delete'),
           ),
         ],

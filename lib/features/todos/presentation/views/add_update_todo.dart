@@ -8,7 +8,6 @@ import 'package:todo_app/features/todos/presentation/widgets/app_header.dart';
 import 'package:todo_app/features/todos/presentation/widgets/custom_text_field.dart';
 import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
-import 'package:todo_app/global/theme/colors.dart';
 import 'package:todo_app/global/widgets/space.dart';
 
 class AddUpdateTodoScreen extends StatefulWidget {
@@ -64,7 +63,6 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: BlocListener<TodosBloc, TodosState>(
         listener: (context, state) {
           if (state is TodoAddedSuccess || state is TodoUpdatedSuccess) {
@@ -75,7 +73,7 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
                       ? 'Todo updated successfully'
                       : 'Todo added successfully',
                 ),
-                backgroundColor: Colors.green,
+                backgroundColor: context.colorScheme.primary,
               ),
             );
             context.pop();
@@ -83,7 +81,7 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.red,
+                backgroundColor: context.colorScheme.error,
               ),
             );
           }
@@ -119,7 +117,9 @@ class _AddUpdateTodoScreenState extends State<AddUpdateTodoScreen> {
                       Text(
                         'Note: DummyJSON API simulates operations but doesn\'t persist data permanently.',
                         style: context.textTheme.bodySmall?.copyWith(
-                          color: AppColors.textPrimary.withValues(alpha: 0.6),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.6),
                           fontStyle: FontStyle.italic,
                         ),
                       ),

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
-import 'package:todo_app/global/theme/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,12 +33,12 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.colorScheme.primary,
         body: Center(
           child: Text(
             'Todo App',
             style: context.textTheme.displayLarge?.copyWith(
-              color: AppColors.white,
+              color: context.colorScheme.onPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),

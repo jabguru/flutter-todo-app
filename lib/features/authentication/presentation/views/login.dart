@@ -7,7 +7,6 @@ import 'package:todo_app/features/todos/presentation/widgets/custom_text_field.d
 import 'package:todo_app/features/todos/presentation/widgets/primary_button.dart';
 import 'package:todo_app/global/extensions/context_extension.dart';
 import 'package:todo_app/global/routes/app_routes.dart';
-import 'package:todo_app/global/theme/colors.dart';
 import 'package:todo_app/global/widgets/space.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -44,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
@@ -53,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.red,
+                backgroundColor: context.colorScheme.error,
               ),
             );
           }
@@ -73,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Sign in to your account',
                         style: context.textTheme.titleLarge?.copyWith(
-                          color: AppColors.textPrimary,
+                          color: context.colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -127,8 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Use username: emilys, password: emilyspass',
                           style: context.textTheme.bodySmall?.copyWith(
-                            color: AppColors.textPrimary
-                              ..withValues(alpha: 0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                             fontStyle: FontStyle.italic,
                           ),
                           textAlign: TextAlign.center,
